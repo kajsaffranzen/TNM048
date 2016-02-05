@@ -15,7 +15,10 @@ function map(){
     var colors = d3.scale.category20();
     
     //initialize tooltip
-    //...
+     var tooltip = d3.select("#map").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+    
 
     var projection = d3.geo.mercator()
         .center([50, 60 ])
@@ -67,16 +70,23 @@ function map(){
             .attr("title", function(d) { return d.properties.name; })
             //country color
             .style("fill", function(d){ 
-                // return color[d]
                 return cc[d.properties.name]; 
             })
             //...
             //tooltip
             .on("mousemove", function(d) {
-                //...
+                console.log(d.properties.name)
+                
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX - 40) + "px")
+                // tooltip.html(d.properties.name)
+                //     .style("left", (d3.event.pageX - 40) + "px")
+                //     .style("top", (d3.event.pageY - 100) + "px");
             })
             .on("mouseout",  function(d) {
-                //...
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);  
             })
             //selection
             .on("click",  function(d) {
